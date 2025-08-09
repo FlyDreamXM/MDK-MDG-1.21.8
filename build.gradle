@@ -17,6 +17,7 @@ tasks.named('wrapper', Wrapper).configure {
 version = mod_version
 group = mod_group_id
 
+// mirrors(project.repositories)
 repositories {
     // Add here additional repositories if required by some of the dependencies below.
 }
@@ -184,4 +185,22 @@ idea {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+static void mirrors(RepositoryHandler repo) {
+    repo.mavenLocal()
+    repo.maven {
+		name = "Lss233"
+		url = "https://lss233.littleservice.cn/repositories/minecraft"
+	}
+    repo.maven {
+        name = "BMCLAPI"
+        url = "https://bmclapi2.bangbang93.com/maven"
+    }
+    var MOJANG_MAVEN = repo.named("Mojang Minecraft Libraries").get()
+    var NEOFORGE_MAVEN = repo.named("NeoForged Releases").get()
+    repo.remove(MOJANG_MAVEN)
+    repo.addLast(MOJANG_MAVEN)
+    repo.remove(NEOFORGE_MAVEN)
+    repo.addLast(NEOFORGE_MAVEN)
 }
